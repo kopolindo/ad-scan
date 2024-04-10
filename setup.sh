@@ -51,7 +51,7 @@ if [ "$?" -ne 0 ]; then
 fi
 
 info "Add pyenv sourcing to .bashrc"
-cat << 'EOF' | tee -a "${HOME}/.bashrc"
+cat << "EOF" | tee -a "${HOME}/.bashrc"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
