@@ -50,6 +50,11 @@ if [ "$?" -ne 0 ]; then
     error "Installation of pyenv failed"
 fi
 
+info "Add pyenv sourcing to .bashrc"
+echo "export PYENV_ROOT=\"$HOME/.pyenv\"" >> "${HOME}/.bashrc"
+echo "[[ -d $PYENV_ROOT/bin ]] && export PATH=\"$PYENV_ROOT/bin:$PATH\"" >> "${HOME}/.bashrc"
+echo "eval \"$(pyenv init -)\"" >> "${HOME}/.bashrc"
+
 info "Install python 3.8.0"
 pyenv install 3.8.0
 if [ "$?" -ne 0 ]; then
