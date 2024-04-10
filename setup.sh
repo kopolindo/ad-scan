@@ -29,7 +29,7 @@ info "Elevating privileges to install requirements"
 if [[ "$EUID" = 0 ]]; then
     info "(1) already root"
 else
-    sudo su -k # make sure to ask for password on next sudo ✱
+    sudo su # make sure to ask for password on next sudo ✱
     if sudo true; then
         info "(2) correct password"
     else
