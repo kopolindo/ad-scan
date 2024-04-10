@@ -51,9 +51,11 @@ if [ "$?" -ne 0 ]; then
 fi
 
 info "Add pyenv sourcing to .bashrc"
-echo "export PYENV_ROOT=\"$HOME/.pyenv\"" | tee -a "${HOME}/.bashrc"
-echo "[[ -d $PYENV_ROOT/bin ]] && export PATH=\"$PYENV_ROOT/bin:$PATH\"" | tee -a "${HOME}/.bashrc"
-echo "eval \"$(pyenv init -)\"" | tee -a "${HOME}/.bashrc"
+cat << 'EOF' | tee -a "${HOME}/.bashrc"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+EOF
 
 info "Install python 3.8.0"
 pyenv install 3.8.0
