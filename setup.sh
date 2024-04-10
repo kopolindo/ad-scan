@@ -6,27 +6,37 @@ NC='\033[0m' # No Color
 
 function info(){
     local message=$1
-    echo -e "[I] ${WHITE}${message}${NC}"
+    echo -e "${WHITE}[I] ${message}${NC}"
 }
 
 function warn(){
     local message=$1
-    echo -e "[!] ${YELLOW}${message}${NC}"
+    echo -e "${YELLOW}[!] ${message}${NC}"
 }
 
 function success(){
     local message=$1
-    echo -e "[I] ${GREEN}${message}${NC}"
+    echo -e "${GREEN}[I] ${message}${NC}"
 }
 
 function error(){
     local message=$1
-    echo -e "[X] ${RED}${message}${NC}"
+    echo -e "${RED}[X] ${message}${NC}"
     exit 1
 }
 
 info "Elevating privileges to install requirements"
-sudo su
+if [[ "$EUID" = 0 ]]; then
+    info "(1) already root"
+else
+    sudo su -k # make sure to ask for password on next sudo ✱
+    if sudo true; then
+        info "(2) correct password"
+    else
+        error "(3) wrong password"
+        exit 1
+    fi
+fi
 
 info "Install libffi-dev, required by python module installation to avoid _ctypes errors"
 yum install libffi-devel
